@@ -1,95 +1,93 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { request } from "../lib/datocms";
+import EcommerceStore from "../components/EcommerceStore";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const HOMEPAGE_QUERY = `
+	{
+  themeSetting {
+    primaryColor {
+      hex
+    }
+    secondaryColor {
+      hex
+    }
+  }
+  allProducts {
+    id
+    name
+    description
+    price
+    image {
+      id
+      url
+    }
+  }
+  allPromotions {
+    id
+    promotionCode
+    description
+    title
+    backgroundColor {
+      hex
+    }
+    validUntil
+  }
+  homepage {
+    id
+    _status
+    _isValid
+    _seoMetaTags {
+      attributes
+      content
+    }
+    homepageLayout {
+      ... on HeroSectionRecord {
+        id
+		title
+        description
+        buttonText
+        backgroundImage {
+          alt
+          url
+        }
+      }
+    }
+  }
+}
+`;
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+export default async function Home() {
+	const data = await request({
+		query: HOMEPAGE_QUERY,
+		variables: { limit: 10 },
+	});
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+	const transformedData = {
+		hero: {
+			title: data.homepage.homepageLayout[0].title,
+			description: data.homepage.homepageLayout[0].description,
+			ctaText: data.homepage.homepageLayout[0].buttonText,
+			backgroundImage: data.homepage.homepageLayout[0].backgroundImage.url,
+		},
+		products: data.allProducts.map((product) => ({
+			id: product.id,
+			name: product.name,
+			description: product.description,
+			price: product.price,
+			image: product.image.url,
+			category: "Snacks",
+		})),
+		promotions: data.allPromotions.map((promo) => ({
+			title: promo.title,
+			description: promo.description,
+			backgroundColor: promo.backgroundColor.hex,
+			promotionCode: promo.promotionCode,
+			validUntil: promo.validUntil,
+		})),
+	};
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+	return (
+		<main className="flex min-h-screen flex-col items-center justify-between">
+			<EcommerceStore initialData={transformedData} />
+		</main>
+	);
 }

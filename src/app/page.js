@@ -1,8 +1,7 @@
 import { request } from "../lib/datocms";
 import EcommerceStore from "../components/EcommerceStore";
 
-// // Enable ISR
-// export const revalidate = 3600; // Revalidate at most every hour
+export const revalidate = 0;
 
 const HOMEPAGE_QUERY = `
 	{

@@ -174,6 +174,25 @@ const HomePage = ({ initialData }) => {
 						gutterBottom
 						sx={{ mb: 6 }}
 					>
+						Products Selected for Home Page
+					</Typography>
+					<Grid container spacing={4}>
+						{initialData.homeSelectedProducts.map((product) => (
+							<Grid item key={product.id} xs={12} sm={6} md={4}>
+								<ProductCard product={product} />
+							</Grid>
+						))}
+					</Grid>
+				</Container>
+
+				<Container maxWidth="lg" sx={{ py: 8 }}>
+					<Typography
+						variant="h3"
+						component="h2"
+						textAlign="center"
+						gutterBottom
+						sx={{ mb: 6 }}
+					>
 						Special Offers
 					</Typography>
 					<Grid container spacing={4}>

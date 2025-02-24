@@ -18,6 +18,7 @@ const HOMEPAGE_QUERY = `
     name
     description
     price
+    category
     image {
       id
       url
@@ -58,6 +59,11 @@ const HOMEPAGE_QUERY = `
         sectionTitle
       }
 
+      ... on PromotionsGridRecord {
+        id
+        sectionTitle
+      }
+
       ... on HeroSectionRecord {
         id
         title
@@ -80,7 +86,7 @@ export default async function Home() {
 	});
 
 	// console.log(
-	// 	data.homepage.homepageLayout[1].products,
+	// 	,
 	// 	"test home layout products"
 	// );
 
@@ -102,16 +108,18 @@ export default async function Home() {
 				description: product.description,
 				price: product.price,
 				image: product.image.url,
-				category: "Snacks",
+				category: product.category,
 			})
 		),
+		title_one: data.homepage.homepageLayout[1].sectionTitle,
+		title_two: data.homepage.homepageLayout[2].sectionTitle,
 		products: data.allProducts.map((product) => ({
 			id: product.id,
 			name: product.name,
 			description: product.description,
 			price: product.price,
 			image: product.image.url,
-			category: "Snacks",
+			category: product.category,
 		})),
 		promotions: data.allPromotions.map((promo) => ({
 			title: promo.title,

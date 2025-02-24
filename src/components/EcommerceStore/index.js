@@ -30,11 +30,45 @@ const cmsTheme = {
 			paper: "#FFFFFF",
 		},
 	},
+	typography: {
+		fontFamily: "'Work Sans', sans-serif",
+		h1: {
+			fontFamily: "'Work Sans', sans-serif",
+			fontWeight: 700,
+		},
+		h2: {
+			fontFamily: "'Work Sans', sans-serif",
+			fontWeight: 700,
+		},
+		h3: {
+			fontFamily: "'Work Sans', sans-serif",
+			fontWeight: 700,
+		},
+		h4: {
+			fontFamily: "'Work Sans', sans-serif",
+			fontWeight: 700,
+		},
+		h5: {
+			fontFamily: "'Work Sans', sans-serif",
+			fontWeight: 600,
+		},
+		h6: {
+			fontFamily: "'Work Sans', sans-serif",
+			fontWeight: 600,
+		},
+		body1: {
+			fontFamily: "'Work Sans', sans-serif",
+		},
+		body2: {
+			fontFamily: "'Work Sans', sans-serif",
+		},
+	},
 	components: {
 		MuiButton: {
 			styleOverrides: {
 				root: {
 					textTransform: "none",
+					fontFamily: "'Work Sans', sans-serif",
 				},
 			},
 		},
@@ -78,41 +112,63 @@ const HeroBanner = ({ data }) => (
 );
 
 const ProductCard = ({ product }) => (
-	<Card>
+	<Card sx={{ margin: "12px" }}>
 		<CardMedia
 			component="img"
 			height="200"
 			image={product.image}
 			alt={product.name}
+			sx={{ objectFit: "contain", margin: "15px" }}
 		/>
 		<CardContent>
-			<Typography gutterBottom variant="h6" component="h3">
+			<Typography
+				fontSize={"16px"}
+				textTransform={"capitalize"}
+				variant="h6"
+				lineHeight={"1.5"}
+				component="h3"
+				marginBottom={"8px"}
+			>
 				{product.name}
 			</Typography>
-			<Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-				{product.category}
-			</Typography>
-			<Typography variant="body2" color="text.secondary">
-				{product.description}
-			</Typography>
-		</CardContent>
-		<CardActions sx={{ justifyContent: "space-between", px: 2, pb: 2 }}>
-			<Typography variant="h6" component="span">
-				${product.price}
-			</Typography>
-			<IconButton
-				color="primary"
+			<Typography
+				variant="body2"
+				color="text.secondary"
 				sx={{
-					bgcolor: "primary.main",
-					color: "common.white",
-					"&:hover": {
-						bgcolor: "primary.dark",
-					},
+					mb: 1,
+					bgcolor: "#ED550E30",
+					display: "inline-block",
+					padding: "5px 10px",
+					borderRadius: "20px",
+					textTransform: "uppercase",
+					fontSize: "12px",
+					fontWeight: "700",
 				}}
 			>
-				<ShoppingCart />
-			</IconButton>
-		</CardActions>
+				{product.category}
+			</Typography>
+			{/* <Typography variant="body2" color="text.secondary">
+				{product.description}
+			</Typography> */}
+			<Typography display={"flex"} variant="h6" component="div">
+				${product.price}
+			</Typography>
+		</CardContent>
+		<Button
+			sx={{
+				background: "black",
+				cursor: "pointer",
+				fontWeight: "700",
+				textAlign: "center",
+				textTransform: "uppercase",
+				color: "white",
+				width: "100%",
+				borderRadius: 0,
+				padding: "12px 0",
+			}}
+		>
+			Add to Cart
+		</Button>
 	</Card>
 );
 
@@ -142,6 +198,7 @@ const PromotionalTile = ({ promo }) => (
 );
 
 const HomePage = ({ initialData }) => {
+	// console.log("initial data", initialData);
 	return (
 		<ThemeProvider theme={theme}>
 			<Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
@@ -155,7 +212,7 @@ const HomePage = ({ initialData }) => {
 						gutterBottom
 						sx={{ mb: 6 }}
 					>
-						Popular Snacks
+						{initialData.title_one}
 					</Typography>
 					<Grid container spacing={4}>
 						{initialData.products.map((product) => (
@@ -174,7 +231,7 @@ const HomePage = ({ initialData }) => {
 						gutterBottom
 						sx={{ mb: 6 }}
 					>
-						Products Selected for Home Page
+						{initialData.title_two}
 					</Typography>
 					<Grid container spacing={4}>
 						{initialData.homeSelectedProducts.map((product) => (

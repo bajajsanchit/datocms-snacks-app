@@ -26,6 +26,7 @@ const HeroBanner = ({ data }) => {
 	};
 
 	const currentData = isCarousel ? data[currentSlide] : data[0];
+	const layout = currentData.heroBannerLayout || "1";
 
 	return (
 		<Paper
@@ -42,11 +43,36 @@ const HeroBanner = ({ data }) => {
 			}}
 		>
 			<Container maxWidth="lg">
-				<Box sx={{ maxWidth: "lg", mx: "auto", py: 8 }}>
-					<Typography variant="h2" component="h1" sx={{ mb: 4 }}>
+				<Box
+					sx={{
+						maxWidth: "lg",
+						mx: "auto",
+						py: 8,
+						textAlign: layout === "2" ? "center" : "left",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: layout === "2" ? "center" : "flex-start",
+					}}
+				>
+					<Typography
+						variant="h2"
+						component="h1"
+						sx={{
+							mb: 4,
+							maxWidth: layout === "2" ? "800px" : "600px",
+							textAlign: layout === "2" ? "center" : "left",
+						}}
+					>
 						{currentData.title}
 					</Typography>
-					<Typography variant="h5" sx={{ mb: 6, maxWidth: 600 }}>
+					<Typography
+						variant="h5"
+						sx={{
+							mb: 6,
+							maxWidth: layout === "2" ? "800px" : "600px",
+							textAlign: layout === "2" ? "center" : "left",
+						}}
+					>
 						{currentData.description}
 					</Typography>
 					<Button

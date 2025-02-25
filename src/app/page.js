@@ -119,6 +119,7 @@ const HOMEPAGE_QUERY = `
           backgroundImage {
             url
           }
+          heroBannerLayout
         }
       }
       ... on ProductsGridRecord {
@@ -170,6 +171,7 @@ export default async function Home() {
 				description: content.description,
 				ctaText: content.buttonText,
 				backgroundImage: content.backgroundImage.url,
+				heroBannerLayout: content?.heroBannerLayout,
 			})
 		),
 		homeSelectedProducts: data.homepage.homepageLayout[2].products.map(

@@ -22,6 +22,11 @@ const Navbar = ({ data }) => {
 		secondaryCta,
 	} = data;
 
+	const getPathFromNavText = (text) => {
+		if (!text) return "#";
+		return `/${text.toLowerCase().replace(/\s+/g, "-")}`;
+	};
+
 	const commonButtonStyles = {
 		textTransform: "none",
 		fontFamily: "'Work Sans', sans-serif",
@@ -43,7 +48,7 @@ const Navbar = ({ data }) => {
 					<Box sx={{ display: "flex", gap: 3 }}>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkOne)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -51,7 +56,7 @@ const Navbar = ({ data }) => {
 						</Button>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkTwo)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -59,7 +64,7 @@ const Navbar = ({ data }) => {
 						</Button>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkThree)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -100,7 +105,7 @@ const Navbar = ({ data }) => {
 					<Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkOne)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -108,7 +113,7 @@ const Navbar = ({ data }) => {
 						</Button>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkTwo)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -116,7 +121,7 @@ const Navbar = ({ data }) => {
 						</Button>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkThree)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -183,7 +188,7 @@ const Navbar = ({ data }) => {
 					<Box sx={{ display: "flex", gap: 3, flex: 1 }}>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkOne)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -191,7 +196,7 @@ const Navbar = ({ data }) => {
 						</Button>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkTwo)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>
@@ -199,7 +204,7 @@ const Navbar = ({ data }) => {
 						</Button>
 						<Button
 							component={Link}
-							href="#"
+							href={getPathFromNavText(navigationLinkThree)}
 							color="inherit"
 							sx={{ textTransform: "none" }}
 						>

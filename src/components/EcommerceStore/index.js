@@ -81,7 +81,7 @@ const cmsTheme = {
 const theme = createTheme(cmsTheme);
 
 const HomePage = ({ initialData }) => {
-	console.log("intiial data", initialData);
+	console.log("initial data", initialData);
 	return (
 		<ThemeProvider theme={theme}>
 			<Box
@@ -91,59 +91,76 @@ const HomePage = ({ initialData }) => {
 					padding: "10px 10px",
 				}}
 			>
-				<HeroBanner data={initialData.hero} />
+				{initialData.components.map((component, index) => {
+					switch (component.type) {
+						case "hero":
+							return <HeroBanner key={index} data={component.data.content} />;
 
-				<Container maxWidth="lg" sx={{ py: 8 }}>
-					<Typography
-						variant="h3"
-						component="h2"
-						textAlign="center"
-						gutterBottom
-						sx={{ mb: 6 }}
-					>
-						{initialData.title_one}
-					</Typography>
-					<Grid container spacing={4}>
-						{initialData.homeSelectedProducts.map((product) => (
-							<Grid item key={product.id} xs={12} sm={6} md={3}>
-								<ProductCard product={product} />
-							</Grid>
-						))}
-					</Grid>
-				</Container>
+						case "productsGrid":
+							return (
+								<Container key={index} maxWidth="lg" sx={{ py: 8 }}>
+									<Typography
+										variant="h3"
+										component="h2"
+										textAlign="center"
+										gutterBottom
+										sx={{ mb: 6 }}
+									>
+										{component.data.title}
+									</Typography>
+									<Grid container spacing={4}>
+										{component.data.products.map((product) => (
+											<Grid item key={product.id} xs={12} sm={6} md={3}>
+												<ProductCard product={product} />
+											</Grid>
+										))}
+									</Grid>
+								</Container>
+							);
 
-				<Container maxWidth="lg" sx={{ py: 8 }}>
-					<Typography
-						variant="h3"
-						component="h2"
-						textAlign="center"
-						gutterBottom
-						sx={{ mb: 6 }}
-					>
-						{initialData.title_two}
-					</Typography>
-					<Grid container spacing={4}>
-						{initialData.promotions.map((promo, index) => (
-							<Grid
-								item
-								key={promo.id || index}
-								xs={12}
-								md={
-									initialData.promotions.length === 1
-										? 12
-										: initialData.promotions.length === 2
-										? 6
-										: 4
-								}
-							>
-								<PromotionalTile
-									promo={promo}
-									singlePromo={initialData.promotions.length === 1}
-								/>
-							</Grid>
-						))}
-					</Grid>
-				</Container>
+						case "promotionsGrid":
+							return (
+								<Container key={index} maxWidth="lg" sx={{ py: 8 }}>
+									<Typography
+										variant="h3"
+										component="h2"
+										textAlign="center"
+										gutterBottom
+										sx={{ mb: 6 }}
+									>
+										{component.data.title}
+									</Typography>
+									<Grid container spacing={4}>
+										{component.data.promotions.map((promo, promoIndex) => (
+											<Grid
+												item
+												key={promoIndex}
+												xs={12}
+												md={
+													component.data.promotions.length === 1
+														? 12
+														: component.data.promotions.length === 2
+														? 6
+														: 4
+												}
+											>
+												<PromotionalTile
+													promo={promo}
+													singlePromo={component.data.promotions.length === 1}
+												/>
+											</Grid>
+										))}
+									</Grid>
+								</Container>
+							);
+
+						case "navigation":
+							return null;
+
+						default:
+							return null;
+					}
+				})}
 			</Box>
 		</ThemeProvider>
 	);

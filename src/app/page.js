@@ -95,7 +95,7 @@ export const revalidate = 0;
 
 const HOMEPAGE_QUERY = `
 	{
-  homepage {
+  homepage(orderBy: position_ASC) {
     homepageLayout {
       ... on NavigationRecord {
         id
@@ -160,7 +160,6 @@ const HOMEPAGE_QUERY = `
 export default async function Home() {
 	const data = await request({
 		query: HOMEPAGE_QUERY,
-		variables: { limit: 10 },
 	});
 
 	const transformedData = {

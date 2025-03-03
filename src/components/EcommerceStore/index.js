@@ -23,7 +23,7 @@ import PromotionalTile from "./PromotionalTile";
 const cmsTheme = {
 	palette: {
 		primary: {
-			main: "#FF6B6B",
+			main: "#107cbd",
 		},
 		secondary: {
 			main: "#4ECDC4",
@@ -84,7 +84,13 @@ const HomePage = ({ initialData }) => {
 	console.log("intiial data", initialData);
 	return (
 		<ThemeProvider theme={theme}>
-			<Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
+			<Box
+				sx={{
+					bgcolor: "background.default",
+					minHeight: "100vh",
+					padding: "10px 10px",
+				}}
+			>
 				<HeroBanner data={initialData.hero} />
 
 				<Container maxWidth="lg" sx={{ py: 8 }}>

@@ -93,6 +93,18 @@ export const revalidate = 0;
 // }
 // `;
 
+const SEO_QUERY = `
+  {
+    homepage {
+      _seoMetaTags {
+        attributes
+        content
+        tag
+      }
+    }
+  }
+`;
+
 const HOMEPAGE_QUERY = `
 	{
   homepage(orderBy: position_ASC) {
@@ -156,6 +168,77 @@ const HOMEPAGE_QUERY = `
   }
 }
 `;
+
+export async function generateMetadata() {
+	const seoData = await request({
+		query: SEO_QUERY,
+	});
+
+	if (!seoData?.homepage?._seoMetaTags) {
+		return {
+			title: "Modern E-commerce Store",
+			description: "A beautiful e-commerce experience",
+		};
+	}
+
+	const metaTags = seoData.homepage._seoMetaTags;
+
+	const metadata = {
+		metadataBase: new URL(
+			process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+		),
+		openGraph: {
+			images: [],
+		},
+		twitter: {
+			images: [],
+		},
+	};
+
+	metaTags.forEach((tag) => {
+		if (tag.tag === "title") {
+			metadata.title = tag.content;
+		} else if (tag.tag === "meta") {
+			const attrs = tag.attributes || {};
+
+			if (attrs.name === "description") {
+				metadata.description = attrs.content;
+			}
+
+			if (attrs.property?.startsWith("og:")) {
+				if (attrs.property === "og:title") {
+					metadata.openGraph.title = attrs.content;
+				} else if (attrs.property === "og:description") {
+					metadata.openGraph.description = attrs.content;
+				} else if (attrs.property === "og:image") {
+					metadata.openGraph.images.push(attrs.content);
+				} else if (attrs.property === "og:locale") {
+					metadata.openGraph.locale = attrs.content;
+				} else if (attrs.property === "og:type") {
+					metadata.openGraph.type = attrs.content;
+				} else if (attrs.property === "og:site_name") {
+					metadata.openGraph.siteName = attrs.content;
+				}
+			}
+
+			if (attrs.name?.startsWith("twitter:")) {
+				if (attrs.name === "twitter:title") {
+					metadata.twitter.title = attrs.content;
+				} else if (attrs.name === "twitter:description") {
+					metadata.twitter.description = attrs.content;
+				} else if (attrs.name === "twitter:image") {
+					metadata.twitter.images.push(attrs.content);
+				} else if (attrs.name === "twitter:card") {
+					metadata.twitter.card = attrs.content;
+				} else if (attrs.name === "twitter:site") {
+					metadata.twitter.site = attrs.content;
+				}
+			}
+		}
+	});
+
+	return metadata;
+}
 
 export default async function Home() {
 	const data = await request({

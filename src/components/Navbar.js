@@ -22,7 +22,10 @@ const Navbar = ({ data }) => {
 		secondaryCta,
 	} = data;
 
-	const theme = useTheme();
+	const commonButtonStyles = {
+		textTransform: "none",
+		fontFamily: "'Work Sans', sans-serif",
+	};
 
 	const renderLayout1 = () => (
 		<AppBar position="static" color="default" elevation={1}>

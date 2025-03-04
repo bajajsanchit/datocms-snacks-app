@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Container, Grid, Typography, Box, Paper } from "@mui/material";
-import ProductCard from "./ProductCard";
+import ProductCard from "./EcommerceStore/ProductCard";
 
 const ProductsPage = ({ data }) => {
 	const products = data?.products || [];

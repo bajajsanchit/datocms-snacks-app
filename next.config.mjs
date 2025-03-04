@@ -7,6 +7,11 @@ const nextConfig = {
 				hostname: "www.datocms-assets.com",
 				pathname: "/**",
 			},
+			{
+				protocol: "https",
+				hostname: "datocms-snacks-app.vercel.app",
+				pathname: "/**",
+			},
 		],
 	},
 };

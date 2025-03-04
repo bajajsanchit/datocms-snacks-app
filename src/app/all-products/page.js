@@ -1,7 +1,7 @@
 import React from "react";
 import { request } from "@/lib/datocms";
 import Navbar from "@/components/Navbar";
-import ProductsPage from "@/components/EcommerceStore/ProductsPage";
+import ProductsPage from "@/components/ProductsPage";
 import { ThemeProvider, createTheme, Box } from "@mui/material";
 
 const PRODUCTS_QUERY = `

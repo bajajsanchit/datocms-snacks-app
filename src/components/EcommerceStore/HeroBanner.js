@@ -26,7 +26,9 @@ const HeroBanner = ({ data }) => {
 	};
 
 	const currentData = isCarousel ? data[currentSlide] : data[0];
-	const layout = currentData.heroBannerLayout || "1";
+	const layout = currentData?.heroBannerLayout || "1";
+
+	console.log(currentData, "cd");
 
 	return (
 		<Paper
@@ -48,7 +50,7 @@ const HeroBanner = ({ data }) => {
             rgba(0, 0, 0, 0.1) 0%,
             rgba(0, 0, 0, 0.1) 100%
           ),
-          url(${currentData.backgroundImage})
+          url(${currentData?.backgroundImage})
         `,
 				display: "flex",
 				alignItems: "center",
@@ -101,7 +103,7 @@ const HeroBanner = ({ data }) => {
 							textShadow: "0 2px 4px rgba(0,0,0,0.15)",
 						}}
 					>
-						{currentData.title}
+						{currentData?.title}
 					</Typography>
 					<Typography
 						variant="h5"
@@ -123,7 +125,7 @@ const HeroBanner = ({ data }) => {
 							mb: { xs: 2, sm: 3, md: 4 },
 						}}
 					>
-						{currentData.description}
+						{currentData?.description}
 					</Typography>
 					<Button
 						variant="contained"
@@ -146,7 +148,7 @@ const HeroBanner = ({ data }) => {
 							},
 						}}
 					>
-						{currentData.ctaText}
+						{currentData?.ctaText}
 					</Button>
 				</Box>
 			</Container>

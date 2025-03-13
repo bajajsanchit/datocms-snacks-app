@@ -110,7 +110,7 @@ const SEO_QUERY = `
 
 const HOMEPAGE_QUERY = `
 	{
-  homepage(orderBy: position_ASC) {
+  homepage{
     homepageLayout {
       ... on NavigationRecord {
         id

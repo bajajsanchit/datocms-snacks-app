@@ -92,8 +92,6 @@ const HomePage = ({ initialData }) => {
 					padding: "10px 10px",
 				}}
 			>
-				<LTOBanner />
-
 				{initialData.components.map((component, index) => {
 					switch (component.type) {
 						case "lto":
@@ -114,7 +112,8 @@ const HomePage = ({ initialData }) => {
 									>
 										{component.data.title}
 									</Typography>
-									<Grid container spacing={4}>
+
+									<Grid container justifyContent="center" spacing={4}>
 										{component.data.products.map((product) => (
 											<Grid item key={product.id} xs={12} sm={6} md={3}>
 												<ProductCard product={product} />

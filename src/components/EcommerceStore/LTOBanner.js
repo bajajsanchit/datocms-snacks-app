@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography, styled } from "@mui/material";
+import React from "react";
+import { Box, styled } from "@mui/material";
 import { keyframes } from "@mui/system";
 
-const fadeInOut = keyframes`
-  0% { opacity: 0; transform: scale(0.9); }
-  10% { opacity: 1; transform: scale(1); }
-  90% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.9); }
+const marqueeAnimation = keyframes`
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 `;
 
 const BannerContainer = styled(Box)(({ theme, backgroundColor }) => ({
 	position: "relative",
 	width: "100%",
-	height: 120,
 	backgroundColor: backgroundColor || "#ff5722",
 	overflow: "hidden",
-	display: "flex",
-	justifyContent: "center",
-	alignItems: "center",
+	padding: theme.spacing(1, 0),
 	"&::before": {
 		content: '""',
 		position: "absolute",
@@ -30,23 +25,40 @@ const BannerContainer = styled(Box)(({ theme, backgroundColor }) => ({
 	},
 }));
 
-const FlashingText = styled(Typography)(({ theme, duration, textColor }) => ({
+const MarqueeWrapper = styled(Box)({
+	position: "relative",
+	width: "100%",
+	overflow: "hidden",
+	display: "flex",
+});
+
+const MarqueeContent = styled(Box)(({ theme, textColor }) => ({
+	whiteSpace: "nowrap",
+	display: "inline-block",
+	animation: `${marqueeAnimation} 15s linear infinite`,
 	color: textColor || "white",
 	fontWeight: "bold",
-	textAlign: "center",
+	fontSize: "1.25rem",
+	textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
 	zIndex: 2,
-	animation: `${fadeInOut} ${duration}ms ease-in-out infinite`,
-	textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-	padding: theme.spacing(2),
+	position: "relative",
+	padding: theme.spacing(1, 0),
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.5rem",
-	},
-	[theme.breakpoints.up("sm")]: {
-		fontSize: "2rem",
+		fontSize: "1rem",
 	},
 	[theme.breakpoints.up("md")]: {
-		fontSize: "2.5rem",
+		fontSize: "1.25rem",
 	},
+}));
+
+const MessageItem = styled("span")(({ theme }) => ({
+	padding: theme.spacing(0, 2),
+	display: "inline-block",
+}));
+
+const Separator = styled("span")(({ theme }) => ({
+	padding: theme.spacing(0, 1),
+	display: "inline-block",
 }));
 
 const LTOBanner = ({ data = {} }) => {
@@ -54,30 +66,30 @@ const LTOBanner = ({ data = {} }) => {
 		Boolean
 	);
 
-	const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-	const flashInterval = 2000;
-
-	useEffect(() => {
-		if (messages.length <= 1) return;
-
-		const intervalId = setInterval(() => {
-			setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
-		}, flashInterval);
-
-		return () => clearInterval(intervalId);
-	}, [messages.length]);
-
 	if (messages.length === 0) return null;
 
+	const createMarqueeContent = () => {
+		return (
+			<>
+				{messages.map((message, index) => (
+					<React.Fragment key={index}>
+						<MessageItem>{message}</MessageItem>
+						{index < messages.length - 1 && <Separator>•</Separator>}
+					</React.Fragment>
+				))}
+			</>
+		);
+	};
+
 	return (
-		<BannerContainer backgroundColor={data.backgroundColor?.hex || "#ff5722"}>
-			<FlashingText
-				variant="h3"
-				duration={flashInterval}
-				textColor={data.textColor?.hex || "#FFFFFF"}
-			>
-				{messages[currentMessageIndex]}
-			</FlashingText>
+		<BannerContainer backgroundColor={data.backgroundColor || "#ff5722"}>
+			<MarqueeWrapper>
+				<MarqueeContent textColor={data.textColor?.hex || "#FFFFFF"}>
+					{createMarqueeContent()}
+					<Separator>•</Separator>
+					{createMarqueeContent()}
+				</MarqueeContent>
+			</MarqueeWrapper>
 		</BannerContainer>
 	);
 };

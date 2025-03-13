@@ -28,8 +28,6 @@ const HeroBanner = ({ data }) => {
 	const currentData = isCarousel ? data[currentSlide] : data[0];
 	const layout = currentData?.heroBannerLayout || "1";
 
-	console.log(currentData, "cd");
-
 	return (
 		<Paper
 			elevation={0}

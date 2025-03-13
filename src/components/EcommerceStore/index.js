@@ -94,7 +94,7 @@ const HomePage = ({ initialData }) => {
 			>
 				{initialData.components.map((component, index) => {
 					switch (component.type) {
-						case "lto":
+						case "alert":
 							return <LTOBanner key={index} data={component.data} />;
 
 						case "hero":

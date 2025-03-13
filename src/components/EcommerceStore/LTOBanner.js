@@ -62,11 +62,16 @@ const Separator = styled("span")(({ theme }) => ({
 }));
 
 const LTOBanner = ({ data = {} }) => {
-	const messages = [data.messageOne, data.messageTwo, data.messageThree].filter(
-		Boolean
-	);
+	const messages = data.messages
+		? data.messages.map((msg) => msg.message).filter(Boolean)
+		: [data.messageOne, data.messageTwo, data.messageThree].filter(Boolean);
 
 	if (messages.length === 0) return null;
+
+	const backgroundColor =
+		data.messages && data.messages[0]?.backgroundColor?.hex
+			? data.messages[0].backgroundColor.hex
+			: data.backgroundColor || "#ff5722";
 
 	const createMarqueeContent = () => {
 		return (
@@ -82,7 +87,7 @@ const LTOBanner = ({ data = {} }) => {
 	};
 
 	return (
-		<BannerContainer backgroundColor={data.backgroundColor || "#ff5722"}>
+		<BannerContainer backgroundColor={backgroundColor}>
 			<MarqueeWrapper>
 				<MarqueeContent textColor={data.textColor?.hex || "#FFFFFF"}>
 					{createMarqueeContent()}

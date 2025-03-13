@@ -150,13 +150,10 @@ const HOMEPAGE_QUERY = `
         }
       }
 
-	  ... on LtoBannerRecord {
+	  ... on AlertBannerRecord {
         id
-        messageOne
-        messageThree
-        messageTwo
-        backgroundColor {
-          hex
+        messages {
+          message
         }
       }
 
@@ -375,20 +372,15 @@ export default async function Home() {
 						})),
 					},
 				};
-			} else if ("messageOne" in component) {
+			} else if ("messages" in component) {
 				return {
-					type: "lto",
+					type: "alert",
 					order: index,
 					data: {
-						messageOne: component.messageOne || "",
-						messageTwo: component.messageTwo || "",
-						messageThree: component.messageThree || "",
-						backgroundColor: component.backgroundColor?.hex || "#000000",
-						textColor: "#FFFFFF",
-						endDate: new Date(
-							Date.now() + 7 * 24 * 60 * 60 * 1000
-						).toISOString(),
-						isActive: true,
+						messages: component.messages.map((msg) => ({
+							message: msg.message,
+							backgroundColor: msg.backgroundColor?.hex || "#000000",
+						})),
 					},
 				};
 			}

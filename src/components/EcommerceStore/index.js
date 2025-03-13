@@ -19,6 +19,8 @@ import { ShoppingCart, ArrowRight } from "lucide-react";
 import HeroBanner from "./HeroBanner";
 import ProductCard from "./ProductCard";
 import PromotionalTile from "./PromotionalTile";
+import LTOBanner from "./LTOBanner";
+import NewsletterSignup from "./NewsletterSignup";
 
 const cmsTheme = {
 	palette: {
@@ -81,7 +83,6 @@ const cmsTheme = {
 const theme = createTheme(cmsTheme);
 
 const HomePage = ({ initialData }) => {
-	console.log("initial data", initialData);
 	return (
 		<ThemeProvider theme={theme}>
 			<Box
@@ -91,8 +92,13 @@ const HomePage = ({ initialData }) => {
 					padding: "10px 10px",
 				}}
 			>
+				<LTOBanner />
+
 				{initialData.components.map((component, index) => {
 					switch (component.type) {
+						case "lto":
+							return <LTOBanner key={index} data={component.data} />;
+
 						case "hero":
 							return <HeroBanner key={index} data={component.data.content} />;
 
@@ -130,7 +136,7 @@ const HomePage = ({ initialData }) => {
 									>
 										{component.data.title}
 									</Typography>
-									<Grid container spacing={4}>
+									<Grid container mb={4} spacing={4}>
 										{component.data.promotions.map((promo, promoIndex) => (
 											<Grid
 												item

@@ -1,28 +1,28 @@
 {
-  "name": "cms-layout-base",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@datocms/cma-client-node": "^3.4.4",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.6",
-    "@mui/material": "^6.4.5",
-    "graphql": "^16.10.0",
-    "graphql-request": "^7.1.2",
-    "lucide-react": "^0.475.0",
-    "next": "14.1.4",
-    "react": "^18",
-    "react-dom": "^18"
-  },
-  "devDependencies": {
-    "eslint": "^8",
-    "eslint-config-next": "14.1.4"
-  }
+	"name": "cms-layout-base",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@datocms/cma-client-node": "^3.4.4",
+		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.0",
+		"@mui/icons-material": "^6.4.6",
+		"@mui/material": "^6.4.5",
+		"graphql": "^16.10.0",
+		"graphql-request": "^7.1.2",
+		"lucide-react": "^0.475.0",
+		"next": "14.1.4",
+		"react": "^18",
+		"react-dom": "^18"
+	},
+	"devDependencies": {
+		"eslint": "^8",
+		"eslint-config-next": "14.1.4"
+	}
 }

@@ -1,6 +1,9 @@
 import { request } from "../lib/datocms";
 import EcommerceStore from "../components/EcommerceStore";
 import Navbar from "../components/Navbar";
+import { Box, Paper, Typography, Button } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 export const revalidate = 0;
 
@@ -140,14 +143,23 @@ const HOMEPAGE_QUERY = `
         products {
           price
           name
-          isFeatured
           image {
             url
           }
           description
-          category
         }
       }
+
+	  ... on LtoBannerRecord {
+        id
+        messageOne
+        messageThree
+        messageTwo
+        backgroundColor {
+          hex
+        }
+      }
+
       ... on PromotionsGridRecord {
         id
         sectionTitle
@@ -245,6 +257,70 @@ export default async function Home() {
 		query: HOMEPAGE_QUERY,
 	});
 
+	if (
+		!data.homepage?.homepageLayout ||
+		data.homepage.homepageLayout.length === 0
+	) {
+		return (
+			<Box
+				component="main"
+				sx={{
+					display: "flex",
+					minHeight: "100vh",
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+					bgcolor: "background.default",
+				}}
+			>
+				<Paper
+					elevation={3}
+					sx={{
+						p: 5,
+						maxWidth: 500,
+						mx: "auto",
+						textAlign: "center",
+						borderRadius: 2,
+					}}
+				>
+					<AddCircleOutlineIcon
+						sx={{ fontSize: 80, color: "primary.main", mb: 3 }}
+					/>
+					<Typography
+						variant="h4"
+						component="h1"
+						gutterBottom
+						fontWeight="bold"
+					>
+						All Project is set up. Start adding content!
+					</Typography>
+					<Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+						Your page is ready, but needs content. Add components in your
+						DatoCMS dashboard to see them appear here.
+					</Typography>
+					<Button
+						variant="contained"
+						color="primary"
+						size="large"
+						href="https://dashboard.datocms.com/"
+						target="_blank"
+						rel="noopener noreferrer"
+						startIcon={<LaunchIcon />}
+						sx={{
+							px: 3,
+							py: 1.5,
+							borderRadius: 2,
+							textTransform: "none",
+							fontWeight: "medium",
+						}}
+					>
+						Go to DatoCMS Dashboard
+					</Button>
+				</Paper>
+			</Box>
+		);
+	}
+
 	const layoutComponents = data.homepage.homepageLayout
 		.map((component, index) => {
 			if ("primaryCta" in component) {
@@ -279,7 +355,7 @@ export default async function Home() {
 							description: product.description,
 							price: product.price,
 							image: product.image.url,
-							category: product.category,
+							category: product.category || "No category",
 						})),
 					},
 				};
@@ -297,6 +373,22 @@ export default async function Home() {
 							validUntil: promo.validUntil,
 							image: promo.promotionImage?.url,
 						})),
+					},
+				};
+			} else if ("messageOne" in component) {
+				return {
+					type: "lto",
+					order: index,
+					data: {
+						messageOne: component.messageOne || "",
+						messageTwo: component.messageTwo || "",
+						messageThree: component.messageThree || "",
+						backgroundColor: component.backgroundColor?.hex || "#000000",
+						textColor: "#FFFFFF",
+						endDate: new Date(
+							Date.now() + 7 * 24 * 60 * 60 * 1000
+						).toISOString(),
+						isActive: true,
 					},
 				};
 			}

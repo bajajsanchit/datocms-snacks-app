@@ -1,6 +1,7 @@
 import { Work_Sans } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
+import { ZipcodeProvider } from "@/components/ZipcodeContext";
 
 const workSans = Work_Sans({
 	subsets: ["latin"],
@@ -66,9 +67,10 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<body className={workSans.className}>
-				<main>{children}</main>
-
-				<Footer data={mockFooterData} />
+				<ZipcodeProvider>
+					<main>{children}</main>
+					<Footer data={mockFooterData} />
+				</ZipcodeProvider>
 			</body>
 		</html>
 	);

@@ -21,6 +21,7 @@ import ProductCard from "./ProductCard";
 import PromotionalTile from "./PromotionalTile";
 import LTOBanner from "./LTOBanner";
 import NewsletterSignup from "./NewsletterSignup";
+import { useZipcode } from "../ZipcodeContext";
 
 const cmsTheme = {
 	palette: {
@@ -83,6 +84,8 @@ const cmsTheme = {
 const theme = createTheme(cmsTheme);
 
 const HomePage = ({ initialData }) => {
+	const { zipcode } = useZipcode();
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Box
@@ -101,6 +104,12 @@ const HomePage = ({ initialData }) => {
 							return <HeroBanner key={index} data={component.data.content} />;
 
 						case "productsGrid":
+							if (
+								zipcode === "500075" &&
+								component.data.title.toLowerCase() === "today's deals"
+							) {
+								return null;
+							}
 							return (
 								<Container key={index} maxWidth="lg" sx={{ py: 8 }}>
 									<Typography

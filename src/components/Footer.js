@@ -17,7 +17,8 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { useState, useRef } from "react";
+import { useRef } from "react";
+import { useZipcode } from "./ZipcodeContext";
 
 const Footer = ({ data }) => {
 	const {
@@ -29,11 +30,13 @@ const Footer = ({ data }) => {
 		copyrightText,
 	} = data;
 
+	const { setZipcode } = useZipcode();
 	const zipcodeRef = useRef(null);
 
 	const handleZipcodeUpdate = () => {
-		const zipcode = zipcodeRef.current.value;
-		console.log("Updated zipcode:", zipcode);
+		const newZipcode = zipcodeRef.current.value;
+		console.log("Updated zipcode:", newZipcode);
+		setZipcode(newZipcode);
 	};
 
 	const getPathFromLinkText = (text) => {
@@ -101,7 +104,6 @@ const Footer = ({ data }) => {
 		<Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
 			<Container maxWidth="lg">
 				<Grid container spacing={4}>
-					{/* Brand and description */}
 					<Grid item xs={12} md={4}>
 						<Box sx={{ mb: 2 }}>
 							<Image

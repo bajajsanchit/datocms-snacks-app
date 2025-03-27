@@ -10,11 +10,14 @@ import {
 	IconButton,
 	Divider,
 	useTheme,
+	TextField,
+	Button,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { useState, useRef } from "react";
 
 const Footer = ({ data }) => {
 	const {
@@ -26,10 +29,32 @@ const Footer = ({ data }) => {
 		copyrightText,
 	} = data;
 
+	const zipcodeRef = useRef(null);
+
+	const handleZipcodeUpdate = () => {
+		const zipcode = zipcodeRef.current.value;
+		console.log("Updated zipcode:", zipcode);
+	};
+
 	const getPathFromLinkText = (text) => {
 		if (!text) return "#";
 		return `/${text.toLowerCase().replace(/\s+/g, "-")}`;
 	};
+
+	const renderZipcodeForm = () => (
+		<Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
+			<TextField
+				size="small"
+				label="Zipcode"
+				variant="outlined"
+				inputRef={zipcodeRef}
+				sx={{ maxWidth: 120 }}
+			/>
+			<Button variant="contained" size="small" onClick={handleZipcodeUpdate}>
+				Update
+			</Button>
+		</Box>
+	);
 
 	const renderSocialIcons = () => (
 		<Stack direction="row" spacing={1}>
@@ -90,6 +115,7 @@ const Footer = ({ data }) => {
 							{companyDescription}
 						</Typography>
 						{renderSocialIcons()}
+						{renderZipcodeForm()}
 					</Grid>
 
 					{/* Footer links columns */}
@@ -141,7 +167,10 @@ const Footer = ({ data }) => {
 					}}
 				>
 					<Image src={brandLogo.url} alt="Brand Logo" width={120} height={40} />
-					{renderSocialIcons()}
+					<Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+						{renderZipcodeForm()}
+						{renderSocialIcons()}
+					</Box>
 				</Box>
 
 				<Divider sx={{ mb: 4 }} />

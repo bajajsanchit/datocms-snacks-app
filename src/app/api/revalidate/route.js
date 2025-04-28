@@ -11,7 +11,6 @@ export async function POST(request) {
 	}
 
 	try {
-		// Revalidate the home page
 		revalidatePath("/");
 
 		return new Response("Revalidation successful", { status: 200 });
